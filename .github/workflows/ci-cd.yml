@@ -6,6 +6,11 @@ on:
   push:
     branches: [ main ]
 
+permissions:
+  checks: write
+  contents: read
+  pull-requests: write
+
 env:
   DOTNET_VERSION: '9.0.x'
   SOLUTION_FILE: 'SettlementBuildingGame.sln'
