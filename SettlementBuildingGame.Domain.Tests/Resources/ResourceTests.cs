@@ -107,7 +107,7 @@ public class ResourceTests
         Assert.Null(exception);
     }
 
-   
+
     [Theory]
     [InlineData(typeof(Oak))]
     [InlineData(typeof(CopperOre))]
