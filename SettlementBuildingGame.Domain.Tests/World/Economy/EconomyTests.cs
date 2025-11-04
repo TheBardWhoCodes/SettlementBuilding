@@ -44,11 +44,11 @@ public class EconomyTests
         var world = new SettlementBuildingGame.Domain.World.World();
         var settlement = new SettlementBuildingGame.Domain.Settlement.Settlement();
         var oak = new Oak();
-        
+
         // Add exactly the equilibrium amount (10 Oak)
         settlement.Inventory.AddResource(oak, 10);
         world.Settlements = [settlement];
-        
+
         var economy = new SettlementBuildingGame.Domain.World.Economy.Economy(world);
 
         // Act
@@ -66,11 +66,11 @@ public class EconomyTests
         var world = new SettlementBuildingGame.Domain.World.World();
         var settlement = new SettlementBuildingGame.Domain.Settlement.Settlement();
         var copperOre = new CopperOre();
-        
+
         // Add less than equilibrium amount (5 instead of 15)
         settlement.Inventory.AddResource(copperOre, 5);
         world.Settlements = [settlement];
-        
+
         var economy = new SettlementBuildingGame.Domain.World.Economy.Economy(world);
 
         // Act
@@ -88,11 +88,11 @@ public class EconomyTests
         var world = new SettlementBuildingGame.Domain.World.World();
         var settlement = new SettlementBuildingGame.Domain.Settlement.Settlement();
         var ironOre = new IronOre();
-        
+
         // Add more than equilibrium amount (40 instead of 20)
         settlement.Inventory.AddResource(ironOre, 40);
         world.Settlements = [settlement];
-        
+
         var economy = new SettlementBuildingGame.Domain.World.Economy.Economy(world);
 
         // Act
@@ -111,11 +111,11 @@ public class EconomyTests
         var settlement1 = new SettlementBuildingGame.Domain.Settlement.Settlement();
         var settlement2 = new SettlementBuildingGame.Domain.Settlement.Settlement();
         var oak = new Oak();
-        
+
         settlement1.Inventory.AddResource(oak, 3);
         settlement2.Inventory.AddResource(oak, 7);
         world.Settlements = [settlement1, settlement2];
-        
+
         var economy = new SettlementBuildingGame.Domain.World.Economy.Economy(world);
 
         // Act
@@ -153,10 +153,10 @@ public class EconomyTests
         var world = new SettlementBuildingGame.Domain.World.World();
         var settlement = new SettlementBuildingGame.Domain.Settlement.Settlement();
         var oak = new Oak();
-        
+
         settlement.Inventory.AddResource(oak, quantity);
         world.Settlements = [settlement];
-        
+
         var economy = new SettlementBuildingGame.Domain.World.Economy.Economy(world);
 
         // Act

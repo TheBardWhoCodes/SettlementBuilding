@@ -125,7 +125,7 @@ public class WorldTests
         // This test verifies that the Economy is created with the current world instance
         // We can't directly test the private field, but we can test that it behaves correctly
         Assert.NotNull(economy);
-        
+
         // The economy should be able to access the world's settlements through the constructor
         var exception = Record.Exception(() => economy);
         Assert.Null(exception);
@@ -141,7 +141,7 @@ public class WorldTests
         // Arrange
         var world = new SettlementBuildingGame.Domain.World.World();
         var settlements = new List<SettlementBuildingGame.Domain.Settlement.Settlement>();
-        
+
         for (int i = 0; i < settlementCount; i++)
         {
             settlements.Add(new SettlementBuildingGame.Domain.Settlement.Settlement());
@@ -165,7 +165,7 @@ public class WorldTests
         // Act
         world.Settlements = originalSettlements;
         var originalCount = world.Settlements.Count();
-        
+
         world.Settlements = newSettlements;
         var newCount = world.Settlements.Count();
 
