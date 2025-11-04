@@ -1,0 +1,72 @@
+name: PR Status Checks
+
+on:
+  pull_request:
+    branches: [ main ]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  # Quick validation job
+  validate:
+    name: Quick Validation
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+        
+    - name: Restore
+      run: dotnet restore SettlementBuildingGame.sln
+      
+    - name: Build
+      run: dotnet build SettlementBuildingGame.sln --no-restore --configuration Debug
+      
+    - name: Test
+      run: dotnet test SettlementBuildingGame.sln --no-build --configuration Debug --verbosity minimal
+
+  # Check that tests are properly structured
+  test-structure:
+    name: Test Structure Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Check test files exist
+      run: |
+        # Check that test files exist for each domain area
+        test -f "SettlementBuildingGame.Domain.Tests/Resources/ResourceTests.cs" || exit 1
+        test -f "SettlementBuildingGame.Domain.Tests/Settlement/SettlementTests.cs" || exit 1
+        test -f "SettlementBuildingGame.Domain.Tests/World/WorldTests.cs" || exit 1
+        test -f "SettlementBuildingGame.Domain.Tests/World/Economy/EconomyTests.cs" || exit 1
+        echo "✅ All required test files are present"
+        
+    - name: Check test project references
+      run: |
+        # Verify test project references the domain project
+        grep -q "SettlementBuildingGame.Domain" "SettlementBuildingGame.Domain.Tests/SettlementBuildingGame.Domain.Tests.csproj" || exit 1
+        echo "✅ Test project properly references domain project"
+
+  # Summary job that depends on all checks
+  pr-checks-complete:
+    name: PR Checks Complete
+    runs-on: ubuntu-latest
+    needs: [validate, test-structure]
+    if: always()
+    
+    steps:
+    - name: Check all jobs
+      run: |
+        if [ "${{ needs.validate.result }}" != "success" ] || [ "${{ needs.test-structure.result }}" != "success" ]; then
+          echo "❌ Some checks failed"
+          exit 1
+        else
+          echo "✅ All PR checks passed"
+        fi
